@@ -14,7 +14,6 @@ const SetCameraLookAt = ({ targetRef }) => {
     if (targetRef) {
       targetRef.position = [4,4.4,0]
       camera.position.set(4,5,8)
-
       // console.log(targetRef.position)
       camera.lookAt(...targetRef.position);
     }
@@ -32,7 +31,6 @@ const CardGrid = ({items, setSelections, selections}) => {
 const movingObjectRef = useRef();
   return (
     <Canvas shadows camera={{ position: [6, 6, 10], fov: 70 }}>
-   
       <ambientLight intensity={0.8} />
       <directionalLight intensity={5} position={[10, 10, 20]} castShadow/>
 

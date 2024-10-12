@@ -102,4 +102,6 @@ const NewAccount = ({setLoggedIn}) => {
   );
 };
 
+
 export default NewAccount;
+

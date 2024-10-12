@@ -31,6 +31,7 @@ const terms = [
   "Imperfectly perfect moments with loved ones"
 ]
 
+
 const GamePage = ({}) => {
 
   const [items, setItems] = useState(null)
@@ -47,6 +48,7 @@ const GamePage = ({}) => {
     // const res = await getMessage()
     // setItems(JSON.parse(res))
     setItems(terms)
+
   }
 
   useEffect(() => {

@@ -12,7 +12,6 @@ import AppHeader from './components/AppHeader';
 import NewAccount from './pages/NewAccount';
 
 
-
 const App = () => {
 
   const [loggedIn, setLoggedIn] = useState(false)
@@ -21,7 +20,9 @@ const App = () => {
   const nav = useNavigate()
 
   useEffect(()=>{
+
     nav('/game')
+
     
   }, [loggedIn, nav])
 
@@ -32,6 +33,7 @@ const App = () => {
       <AppHeader loggedIn={loggedIn}/>
       <Routes>
         <Route path='/game' element={<GamePage />}/>
+
       </Routes>
     </Stack>
   </ThemeProvider>
