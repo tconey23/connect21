@@ -23,15 +23,23 @@ const createHexagonShape = (radius) => {
 
 function Hexagon({ position, label, index, rotation, setSelections, selections }) {
   const [isHover, setIsHover] = useState(null);
-  const [isSelected, setIsSelected] = useState(false)
+
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    console.log(selections.includes(label))
-    if(isSelected && !selections.includes(label)){
-      setIsSelected(false)
-      setIsHover(false)
+    if (isSelected) {
+      // Add the label if selected and not already in selections
+      if (!selections.includes(label)) {
+        setSelections(prev => [...prev, label]);
+      }
+    } else {
+      // Remove the label if deselected
+      if (selections.includes(label)) {
+        setSelections(prev => prev.filter(item => item !== label));
+      }
     }
-  }, [isSelected, selections])
+  }, [isSelected, label, selections, setSelections]);
+
 
   const [ref, api] = useBox(() => ({
     mass: 1,
@@ -75,18 +83,6 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
     [hexagonShape]
   );
 
-  const handleSelection = (index, label) => {
- 
-    setSelections((prev) => {
-      if (!prev.includes(label)) {
-        return [...prev, label]; // Add the new label
-      }
-      return prev; // No change, return previous state
-    });
-  
-    setIsSelected(true)
-
-  };
 
   return (
     <mesh
@@ -95,7 +91,7 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
       receiveShadow
       onPointerOver={() => !isSelected && setIsHover(index)}
       onPointerOut={() => !isSelected && setIsHover(null)}
-      onClick={() => !isSelected && handleSelection(index, label)}
+      onClick={() => setIsSelected(prev => !prev)}
     >
       <pointLight
         position={[0, 0, 0.7]}
@@ -107,7 +103,7 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
 
       <primitive object={hexagonGeometry} attach="geometry" />
       <meshStandardMaterial
-        color={isSelected ? 'grey': 'blue'}
+        color={isSelected ? 'purple' : 'blue'}
         transparent={true} // Enable transparency
         opacity={0.8} // Set opacity to make it translucent
         roughness={0.8} // Adjust roughness for better lighting interaction
@@ -123,6 +119,7 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
         rotation={[0, 0, 0]} // Rotation will match the hexagon
         maxWidth={0.7}
         textAlign="center"
+        onClick={() => setIsSelected(prev => !prev)}
       >
         {label}
       </Text>
@@ -131,26 +128,33 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
 }
 
 
-// Generate a hexagon grid
-const HexagonGrid = ({ items, setCenterHex, setSelections, selections}) => {
+
+
+const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
   const hexRadius = 1.5;
-  const hexHeight = Math.sqrt(3) * hexRadius;
-  const hexWidth = 2.5 * hexRadius;
+  const hexHeight = Math.sqrt(3) * hexRadius;  // Vertical height of a hexagon
+  const hexWidth = 2 * hexRadius;              // Horizontal width of a hexagon
+  
+  // To make hexagons fit like puzzle pieces:
+  const horizontalSpacingFactor = 1.0; // Exact width, no extra spacing
+  const verticalSpacingFactor = 0.50;  // This is the natural height offset for hexagon tessellation
   const rows = 7; // Number of rows
   const cols = 3; // Number of columns
   const hexagons = [];
   let count = 0;
+
  
   // Calculate the grid center based on the number of rows and columns
   const gridCenterX = (cols * hexWidth) / 2;
   const gridCenterY = (rows * hexHeight * 0.75) / 2;
-
+  
   // Create a staggered grid of hexagons
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
-      const offsetX = row % 2 === 0 ? 0 : hexWidth / 2; // Staggered row
-      const x = col * hexWidth + offsetX;
-      const y = row * hexHeight * 0.36; // Adjust the vertical gap
+      const offsetX = row % 2 === 0 ? 0 : hexWidth / 2; // Stagger every other row
+      const x = col * hexWidth * horizontalSpacingFactor + offsetX;
+      const y = row * hexHeight * verticalSpacingFactor; // Adjust the vertical gap for tight fit
+
       hexagons.push({ position: [x, y, 0], label: items[count], index: count });
       count += 1;
     }
@@ -168,7 +172,8 @@ const HexagonGrid = ({ items, setCenterHex, setSelections, selections}) => {
           position={hex.position}
           label={hex.label}
           index={hex.index}
-          rotation={[0,0,0]}
+
+          rotation={[0, 0, 0]}
           setSelections={setSelections}
           selections={selections}
         />
@@ -176,7 +181,6 @@ const HexagonGrid = ({ items, setCenterHex, setSelections, selections}) => {
     </>
   );
 };
-
 
 const Card = ({ items, setCenterHex, setSelections, selections }) => {
   return (

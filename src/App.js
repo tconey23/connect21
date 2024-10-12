@@ -11,6 +11,7 @@ import GamePage from './pages/GamePage';
 import AppHeader from './components/AppHeader';
 import NewAccount from './pages/NewAccount';
 
+
 const App = () => {
 
   const [loggedIn, setLoggedIn] = useState(false)
@@ -19,17 +20,9 @@ const App = () => {
   const nav = useNavigate()
 
   useEffect(()=>{
-    if(loggedIn === true){
-      nav('/game')
-    } 
-    
-    if (loggedIn === 'new'){
-      nav('/new_account')
-    }
 
-    if(loggedIn === false) {
-      nav('/')
-    } 
+    nav('/game')
+
     
   }, [loggedIn, nav])
 
@@ -39,9 +32,7 @@ const App = () => {
     <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
       <AppHeader loggedIn={loggedIn}/>
       <Routes>
-        {!loggedIn && <Route path='/' element={<LandingPage setLoggedIn={setLoggedIn}/>}/>}
-        {loggedIn === 'new' && <Route path='/new_account' element={<NewAccount setLoggedIn={setLoggedIn}/>}/>}
-        {loggedIn === true && <Route path='/game' element={<GamePage />}/>}
+        <Route path='/game' element={<GamePage />}/>
 
       </Routes>
     </Stack>
