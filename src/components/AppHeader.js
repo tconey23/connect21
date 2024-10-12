@@ -12,10 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+const pages = ['Friends', 'History', 'Explore'];
+const settings = ['Profile', 'Account', 'Logout']
 
-const AppHeader = () => {
+const AppHeader = ({loggedIn}) => {
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -122,7 +122,7 @@ const AppHeader = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={loggedIn ? '' : ''}  src=""></Avatar>
               </IconButton>
             </Tooltip>
             <Menu
