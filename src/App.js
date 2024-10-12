@@ -9,6 +9,7 @@ import theme from './theme';
 import LandingPage from './pages/LandingPage';
 import GamePage from './pages/GamePage';
 import AppHeader from './components/AppHeader';
+import NewAccount from './pages/NewAccount';
 
 const App = () => {
 
@@ -18,21 +19,30 @@ const App = () => {
   const nav = useNavigate()
 
   useEffect(()=>{
-    if(loggedIn){
+    if(loggedIn === true){
       nav('/game')
-    } else {
-      nav('/')
+    } 
+    
+    if (loggedIn === 'new'){
+      nav('/new_account')
     }
+
+    if(loggedIn === false) {
+      nav('/')
+    } 
+    
   }, [loggedIn, nav])
 
   return (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
-      <AppHeader />
+      <AppHeader loggedIn={loggedIn}/>
       <Routes>
         {!loggedIn && <Route path='/' element={<LandingPage setLoggedIn={setLoggedIn}/>}/>}
-        {loggedIn && <Route path='/game' element={<GamePage />}/>}
+        {loggedIn === 'new' && <Route path='/new_account' element={<NewAccount setLoggedIn={setLoggedIn}/>}/>}
+        {loggedIn === true && <Route path='/game' element={<GamePage />}/>}
+
       </Routes>
     </Stack>
   </ThemeProvider>
