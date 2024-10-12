@@ -7,7 +7,29 @@ import Selection from '../components/Selection';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const terms = ['Family gatherings during holidays', 'A warm cup of tea on a cold day', 'The smell of fresh rain on dry earth', 'The feeling of accomplishment after a challenge', 'A cozy blanket and a good book on a rainy day', 'Random acts of kindness from strangers', 'A heartfelt embrace from a loved one', 'The taste of homemade chocolate chip cookies', 'The joy of singing along to your favorite song', 'The beauty of a colorful sunset', "The comfort of a pet's unconditional love", 'The sound of laughter shared with friends', 'A genuine smile from a stranger passing by', 'The peacefulness of a quiet moment in nature', 'The excitement of exploring a new place', 'The thrill of achieving a personal goal', 'The magic of a starry night sky', 'The memories made on a spontaneous adventure', 'The warmth of a crackling fireplace in winter', 'The connection forged through deep conversations', 'The sweet nostalgia of childhood memories']
+const terms = [
+  "Adventure-filled weekends",
+  "Rebel souls with kind hearts",
+  "Stormy skies before the rain",
+  "Late-night conversations that feel like therapy",
+  "Coffee stronger than your ex's new relationship",
+  "Old books with notes scribbled in the margins",
+  "Vintage vinyl records with scratchy edges",
+  "Anonymously helping someone in need",
+  "The smell of freshly baked bread",
+  "Quirky street art in unexpected places",
+  "Reckless dancing like nobody's watching",
+  "Rain tapping on a tin roof",
+  "Crowded dive bars with sticky floors",
+  "Smooth whiskey on a cold night",
+  "The feeling after a long, intense workout",
+  "Spontaneous road trips with no destination",
+  "Creating something from nothing",
+  "Forgotten childhood memories that suddenly resurface",
+  "Soft moonlight on a quiet beach",
+  "Losing track of time in a great book",
+  "Imperfectly perfect moments with loved ones"
+]
 
 const GamePage = ({}) => {
 
@@ -17,14 +39,14 @@ const GamePage = ({}) => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // console.log(selections)
+    console.log(selections)
   }, [selections])
 
   const fetchMessages = async () => {
     setLoading(true)
-    const res = await getMessage()
-    setItems(JSON.parse(res))
-    // setItems(terms)
+    // const res = await getMessage()
+    // setItems(JSON.parse(res))
+    setItems(terms)
   }
 
   useEffect(() => {
@@ -63,7 +85,6 @@ const GamePage = ({}) => {
         {items && <CardGrid setOpen={setOpen} items={items} setSelections={setSelections} selections={selections}/>}
 
       </Stack>
-      <Selection setOpen={setOpen} open={open} selections={selections} setSelections={setSelections}/>
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
         open={loading}
