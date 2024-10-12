@@ -26,6 +26,12 @@ const Login = ({setLoggedIn}) => {
         > 
             Enter
         </Button>
+        <Button 
+            sx={{background: (theme)=> theme.palette.buttons.default}}
+            onMouseDown={() => setLoggedIn('new')}
+        > 
+            Create Account
+        </Button>
     </Stack>
   );
 };
