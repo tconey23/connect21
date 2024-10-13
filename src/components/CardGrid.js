@@ -4,16 +4,19 @@ import { OrbitControls } from '@react-three/drei';
 import { Physics, useBox } from '@react-three/cannon';
 import * as THREE from 'three';
 import Card from './Card';
+import { Html } from '@react-three/drei';
+import { Button } from '@mui/material';
+
 
 
 const SetCameraLookAt = ({ targetRef }) => {
   const { camera } = useThree();
-
+  
   
   useFrame(() => {
     if (targetRef) {
-      targetRef.position = [4,4.4,0]
-      camera.position.set(4,5,8)
+      targetRef.position = [3.5,4.4,0]
+      camera.position.set(3.5,5,7.5)
       // console.log(targetRef.position)
       camera.lookAt(...targetRef.position);
     }
@@ -23,10 +26,10 @@ const SetCameraLookAt = ({ targetRef }) => {
 };
 
 
-const CardGrid = ({items, setSelections, selections}) => {
+const CardGrid = ({items, setSelections, selections, key}) => {
 
   const [centerHex, setCenterHex] = useState()
-
+  const [phys, setPhys] = useState(0)
 
 const movingObjectRef = useRef();
   return (
@@ -35,13 +38,11 @@ const movingObjectRef = useRef();
       <directionalLight intensity={5} position={[10, 10, 20]} castShadow/>
 
       <SetCameraLookAt targetRef={centerHex} />
-      {/* <OrbitControls /> */}
 
       <Suspense fallback={null}>
 
-        <Physics gravity={[0, 0, 0]} >
-      
-          <Card setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections}/>
+        <Physics gravity={[0, phys, 0]} >
+          <Card phys={phys} key={key} setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections}/>
         </Physics>
       </Suspense>
     </Canvas>

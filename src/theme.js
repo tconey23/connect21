@@ -48,7 +48,7 @@ const theme = createTheme({
         styleOverrides: {
           root: {
             margin: 5,
-            fontFamily: 'cursive',
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
             color: 'aliceblue',
             paddingLeft: 20,
             paddingRight: 20,

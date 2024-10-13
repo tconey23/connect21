@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Box, Stack, TextField } from '@mui/material';
 import {Button} from '@mui/material';
 import CardGrid from '../components/CardGrid'
 import { getMessage } from '../business/apiCalls';
@@ -34,22 +34,48 @@ const terms = [
 
 const GamePage = ({}) => {
 
+  const messages = [
+    "Select all of the things you love",
+    "Now select up to three",
+    "Now choose your FAVORITE",
+    "Write about your FAVORITE thing!"
+  ]
+
   const [items, setItems] = useState(null)
+  const [currentItems, setCurrentItems] = useState([])
+  const [stage, setStage] = useState(0)
   const [selections, setSelections] = useState([])
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    console.log(selections)
-  }, [selections])
+  const [minSelections, setMinSelections] = useState(3)
+  const [maxSelections, setMaxSelections] = useState()
+  const [userMessage, setUserMessage] = useState()
+  const [userText, setUserText] = useState('')
 
   const fetchMessages = async () => {
     setLoading(true)
     // const res = await getMessage()
     // setItems(JSON.parse(res))
     setItems(terms)
-
+    setCurrentItems(terms)
   }
+
+  useEffect(() => {
+    switch(stage){
+      case 0: setMinSelections(3)
+              setMaxSelections(21)
+      break;
+      case 1: setMinSelections(3)
+              setMaxSelections(3)
+      break;
+      case 2: setMinSelections(1)
+              setMaxSelections(1)
+      break;
+    }
+
+    setUserMessage(messages[stage])
+
+  }, [stage])
 
   useEffect(() => {
     if(loading && items){
@@ -58,12 +84,14 @@ const GamePage = ({}) => {
   }, [loading, items])
 
   useEffect(() => {
-    console.log(items)
-  }, [items])
-
-  useEffect(() => {
     fetchMessages()
   }, [])
+
+  const handleNextClick = () => {
+    setCurrentItems(selections)
+    setStage(prev => prev +1)
+
+  }
 
   return (
     <Stack 
@@ -83,8 +111,38 @@ const GamePage = ({}) => {
           borderRadius: 5,
         }}
       >
-        {/* <Button onMouseDown={() => fetchMessages()} >Get</Button> */}
-        {items && <CardGrid setOpen={setOpen} items={items} setSelections={setSelections} selections={selections}/>}
+        <Stack height={100} justifyContent={'center'} alignItems={'center'}>
+          {stage < 3 &&
+          <>
+          {selections.length >= minSelections && selections.length <= maxSelections && stage !=3 ? 
+            <Button onClick={() => handleNextClick()}>NEXT</Button> :
+            <Button disabled>NEXT</Button>
+          }
+          </>}
+          <Stack height={100} justifyContent={'center'} alignItems={'center'}>
+            {stage ==3 && userText.length > 10 && <Button>SUBMIT</Button>}
+          </Stack>
+          <h3 style={{color: 'white'}}>{userMessage}</h3>
+        </Stack>
+
+
+        {currentItems && stage == 0 && <CardGrid key={stage} setOpen={setOpen} items={currentItems} setSelections={setSelections} selections={selections}/>}
+        {currentItems && stage == 1 && <CardGrid key={stage} setOpen={setOpen} items={currentItems} setSelections={setSelections} selections={selections}/>}
+        {currentItems && stage == 2 && <CardGrid key={stage} setOpen={setOpen} items={currentItems} setSelections={setSelections} selections={selections}/>}
+        
+        {stage == 3 && 
+        <Stack height={'100%'} justifyContent={'flex-start'} alignItems={'center'} width={'100%'}>
+          <h3 style={{color: 'white'}}>{selections}</h3>
+            <TextField
+              id="outlined-multiline-flexible"
+              value={userText}
+              onChange={(e) => setUserText(e.target.value)}
+              multiline
+              sx={{width: '500px'}}
+              maxRows={10}
+            />
+          </Stack>
+          }
 
       </Stack>
       <Backdrop

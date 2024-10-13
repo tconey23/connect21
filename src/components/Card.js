@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect} from 'react';
+import { Button } from '@mui/material';
 import { Html, Text } from '@react-three/drei';
 import { useBox } from '@react-three/cannon';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
-// Helper function to create a hexagon shape
 const createHexagonShape = (radius) => {
   const shape = new THREE.Shape();
   for (let i = 0; i < 6; i++) {
@@ -21,116 +21,104 @@ const createHexagonShape = (radius) => {
   return shape;
 };
 
-function Hexagon({ position, label, index, rotation, setSelections, selections }) {
+function Hexagon({ position, label, index, rotation, setSelections, selections, mass, phys }) {
   const [isHover, setIsHover] = useState(null);
-
   const [isSelected, setIsSelected] = useState(false);
 
-  useEffect(() => {
-    if (isSelected) {
-      // Add the label if selected and not already in selections
-      if (!selections.includes(label)) {
-        setSelections(prev => [...prev, label]);
-      }
-    } else {
-      // Remove the label if deselected
-      if (selections.includes(label)) {
-        setSelections(prev => prev.filter(item => item !== label));
-      }
-    }
-  }, [isSelected, label, selections, setSelections]);
-
-
   const [ref, api] = useBox(() => ({
-    mass: 1,
+    mass: isSelected ? 0 : mass, 
     position,
     rotation,
     args: [1, 1, 0.2],
   }));
+  
+  useEffect(() => {
+    if (isSelected) {
+        ref.mass = 2
+      if (!selections.includes(label)) {
+        setSelections(prev => [...prev, label]);
+      }
+    } else {
+      if (selections.includes(label)) {
+        setSelections(prev => prev.filter(item => item !== label));
+      }
+    }
+  }, [isSelected, label, selections, setSelections, ref]);
 
-  const initialX = position[0];
-  const initialY = position[1];
-  const initialZ = position[2];
 
-  useFrame(({ clock }) => {
-    const time = clock.getElapsedTime();
-
-    const rot = (xyz) => {
-      return xyz + Math.sin(time + index) * 0.05;
-    };
-
-    const rx = rot(rotation[0]);
-    const ry = rot(rotation[1]);
-    const rz = rot(rotation[2]);
-
-    // Update the physics body's position dynamically (uncomment as needed)
-    // api.rotation.set(rx, ry, rz);
-    const newX = initialX + Math.sin(time + index) * 0;
-    const newY = initialY + Math.sin(time + index) * 0;
-    const newZ = initialZ + Math.sin(time + index) * 0.04;
-
-    // api.position.set(newX, newY, newZ);
-  });
-
-  // Memoize the hexagon shape and geometry for performance
   const hexagonShape = useMemo(() => createHexagonShape(1), []);
   const hexagonGeometry = useMemo(
     () =>
       new THREE.ExtrudeGeometry(hexagonShape, {
-        depth: 0.29, // Thickness of the hexagon (making it 3D)
-        bevelEnabled: true, // No bevel
+        depth: 0.29,
+        bevelEnabled: true,
       }),
     [hexagonShape]
   );
 
-
   return (
-    <mesh
-      ref={ref}
-      castShadow
-      receiveShadow
-      onPointerOver={() => !isSelected && setIsHover(index)}
-      onPointerOut={() => !isSelected && setIsHover(null)}
-      onClick={() => setIsSelected(prev => !prev)}
-    >
-      <pointLight
-        position={[0, 0, 0.7]}
-        intensity={isHover === index ? 0.1 : 0}
-        distance={10}
-        color={"white"}
-        decay={200}
-      />
+    <>
+      {label && 
+        <mesh
+          ref={ref}
+          className='hex-hover'
+          castShadow
+          receiveShadow
+          onPointerOver={() => {
+            if (!isSelected) {
+              setIsHover(index);
+              document.body.style.cursor = 'pointer'; // Change cursor to pointer
+            }
+          }}
+          onPointerOut={() => {
+            if (!isSelected) {
+              setIsHover(null);
+              document.body.style.cursor = 'default'; // Reset cursor to default
+            }
+          }}
+          onClick={() => setIsSelected(prev => !prev)}
+        >
+          <pointLight
+            position={[0, 0, 0.7]}
+            intensity={isHover === index ? 0.1 : 0}
+            distance={10}
+            color={"white"}
+            decay={200}
+          />
 
-      <primitive object={hexagonGeometry} attach="geometry" />
-      <meshStandardMaterial
-        color={isSelected ? 'purple' : 'blue'}
-        transparent={true} // Enable transparency
-        opacity={0.8} // Set opacity to make it translucent
-        roughness={0.8} // Adjust roughness for better lighting interaction
-        metalness={0.6} // You can tweak this for reflectivity, if needed
-      />
+          <primitive object={hexagonGeometry} attach="geometry" />
+          <meshStandardMaterial
+            color={isSelected ? 'purple' : 'blue'}
+            transparent={true}
+            opacity={0.8}
+            roughness={0.8}
+            metalness={0.6}
+          />
 
-      <Text
-        position={[0, 0, 0.51]} // Slightly above the hexagon
-        fontSize={0.15} // Size of the text
-        color="silver" // Color of the text
-        anchorX="center" // Align horizontally to center
-        anchorY="middle" // Align vertically to middle
-        rotation={[0, 0, 0]} // Rotation will match the hexagon
-        maxWidth={0.7}
-        textAlign="center"
-        onClick={() => setIsSelected(prev => !prev)}
-      >
-        {label}
-      </Text>
-    </mesh>
+          <Text
+            position={[0, 0, 0.51]}
+            fontSize={0.18}
+            color="silver"
+            anchorX="center"
+            anchorY="middle"
+            rotation={[0, 0, 0]}
+            maxWidth={0.8}
+            textAlign="center"
+            onClick={() => setIsSelected(prev => !prev)}
+          >
+            {label}
+          </Text>
+        </mesh>
+      }
+    </>
   );
 }
 
 
 
 
-const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
+
+const HexagonGrid = ({mass, items, setCenterHex, setSelections, selections, phys }) => {
   const hexRadius = 1.5;
   const hexHeight = Math.sqrt(3) * hexRadius;  // Vertical height of a hexagon
   const hexWidth = 2 * hexRadius;              // Horizontal width of a hexagon
@@ -172,19 +160,44 @@ const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
           position={hex.position}
           label={hex.label}
           index={hex.index}
-
+          phys={phys}
           rotation={[0, 0, 0]}
           setSelections={setSelections}
           selections={selections}
+          mass={mass}
         />
       ))}
     </>
   );
 };
 
-const Card = ({ items, setCenterHex, setSelections, selections }) => {
+const Card = ({ items, setCenterHex, setSelections, selections, phys }) => {
+
+  const [dropping, setDropping] = useState(false);
+  const [mass, setMass] = useState(10)
+
+  useEffect(() => {
+    if(dropping){
+      setMass(10)
+    }
+  }, [dropping])
+
+  // Handler for when the user clicks the Next button
+  const handleNextClick = () => {
+    if (selections.length >= 3) {
+      setDropping(true);  // Start dropping unselected hexagons
+    } else {
+      alert("Please select at least 3 options.");
+    }
+  };
+  
+
   return (
-    <HexagonGrid items={items} setCenterHex={setCenterHex} setSelections={setSelections} selections={selections}/>
+
+    <>
+    <HexagonGrid mass={mass} phys={phys} items={items} setCenterHex={setCenterHex} setSelections={setSelections} selections={selections}/>
+
+    </>
   );
 };
 
