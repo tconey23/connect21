@@ -7,7 +7,7 @@ import { useThree } from '@react-three/fiber';
 
 const SetCameraLookAt = ({ targetRef }) => {
     const { camera } = useThree();
-  
+   
     
     useFrame(() => {
       if (targetRef) {

@@ -17,7 +17,7 @@ const SetCameraLookAt = ({ targetRef }) => {
       // console.log(targetRef.position)
       camera.lookAt(...targetRef.position);
     }
-  });
+  }); 
 
   return null;
 };

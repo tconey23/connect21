@@ -20,7 +20,7 @@ const SetCameraLookAt = ({ centerHex }) => {
     return null;
   };
  
-  
+   
 
 const StageTwo = ({items, setSelections, selections}) => {
     const [centerHex, setCenterHex] = useState()

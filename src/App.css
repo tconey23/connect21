@@ -45,7 +45,7 @@ body{
   cursor: pointer;
 }
 
-.game-page{
+.game-page{ 
   background-image: url(/public/images/20248730_6221800.svg);
   background-size: cover;
 }

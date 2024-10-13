@@ -229,7 +229,7 @@ const GamePage = () => {
           open={open}
           anchorEl={anchorEl}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'bottom', 
             horizontal: 'left',
           }} 
           >
