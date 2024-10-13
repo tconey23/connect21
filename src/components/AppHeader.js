@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Friends', 'History', 'Explore'];
 const settings = ['Profile', 'Account', 'Logout']
 
-const AppHeader = ({loggedIn}) => {
+const AppHeader = ({loggedIn, isMediumScreen}) => {
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -36,7 +36,7 @@ const AppHeader = ({loggedIn}) => {
       };
 
   return (
-<AppBar position="static">
+<AppBar position="static" sx={isMediumScreen && {height: 30, width: '72vw', alignItems: 'center', justifyContent: 'center'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -59,7 +59,7 @@ const AppHeader = ({loggedIn}) => {
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
+              size={isMediumScreen ? 'small' : 'small'}
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -104,9 +104,10 @@ const AppHeader = ({loggedIn}) => {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              fontSize: isMediumScreen && 15
             }}
           >
-            LOGO
+            {isMediumScreen && 'connect21'}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -121,8 +122,8 @@ const AppHeader = ({loggedIn}) => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={loggedIn ? '' : ''}  src=""></Avatar>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size={isMediumScreen ? 'small' : 'small'}>
+                <Avatar sx={isMediumScreen && {width: 20, height: 20}} alt={loggedIn ? '' : ''}  src=""></Avatar>
               </IconButton>
             </Tooltip>
             <Menu

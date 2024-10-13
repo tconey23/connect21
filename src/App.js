@@ -2,18 +2,18 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Stack } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
+import { createTheme, Stack, ThemeProvider, useMediaQuery  } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
-import LandingPage from './pages/LandingPage';
 import GamePage from './pages/GamePage';
 import AppHeader from './components/AppHeader';
-import NewAccount from './pages/NewAccount';
-
 
 
 const App = () => {
+
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const isMediumScreen = useMediaQuery('(min-width:600px) and (max-width:960px)');
+  const isLargeScreen = useMediaQuery('(min-width:960px)');
 
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -28,8 +28,8 @@ const App = () => {
   return (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
-      <AppHeader loggedIn={loggedIn}/>
+    <Stack direction={'column'} alignItems={'center'} justifyContent={'flex-start'} width={isMediumScreen ? 390 : '100vw'} height={isMediumScreen ? 840 : '100vh'}>
+      <AppHeader isMediumScreen={isMediumScreen} loggedIn={loggedIn}/>
       <Routes>
         <Route path='/game' element={<GamePage />}/>
       </Routes>
