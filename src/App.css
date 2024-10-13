@@ -45,10 +45,12 @@ body{
   cursor: pointer;
 }
 
-.game-page{
+.game-page{ 
   background-image: url(/public/images/20248730_6221800.svg);
   background-size: cover;
 }
 
-
-
+.css-36km4v-MuiFormControl-root-MuiTextField-root{
+  height: 500px;
+  width: 500px
+} 

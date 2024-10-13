@@ -7,7 +7,7 @@ import { useThree } from '@react-three/fiber';
 
 const SetCameraLookAt = ({ targetRef }) => {
     const { camera } = useThree();
-  
+   
     
     useFrame(() => {
       if (targetRef) {
@@ -18,7 +18,7 @@ const SetCameraLookAt = ({ targetRef }) => {
     });
   
     return null;
-  };
+  }; 
 
 // Helper function to create the hexagon shape
 const createHexagonShape = (radius) => {

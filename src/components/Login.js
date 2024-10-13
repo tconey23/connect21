@@ -8,7 +8,7 @@ const Login = ({setLoggedIn}) => {
     const handleLogin = () => {
         setLoggedIn(true)
     }
-
+ 
   return (
     <Stack 
         direction={'column'} 
@@ -19,7 +19,7 @@ const Login = ({setLoggedIn}) => {
         <Stack direction={'row'}>
             <TextField placeholder='Login'/>
             <TextField placeholder='Password'/>
-        </Stack>
+        </Stack> 
         <Button 
             sx={{background: (theme)=> theme.palette.buttons.default}}
             onMouseDown={() => handleLogin()}
