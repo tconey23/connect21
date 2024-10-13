@@ -52,7 +52,7 @@ const SetCameraLookAt = ({ centerHex }) => {
 
   
 
-const StageThree = ({items, setSelections, selections}) => {
+const StageThree = ({items, setSelections, selections, isMediumScreen}) => {
     const [centerHex, setCenterHex] = useState()
     const movingObjectRef = useRef();
     
@@ -61,20 +61,9 @@ const StageThree = ({items, setSelections, selections}) => {
     return (
         <>
         <ThemeProvider theme={theme}>
-        <Stack alignItems={'center'} justifyContent={'center'} direction={'column'} width={'100%'} height={1000} padding={'100px'}>
-        <Typography sx={{ p: 2, color: 'white' }}>{`Write something about ${selections}!`}</Typography>
-        <Canvas shadows camera={{ position: [6, 6, 10], fov: 70 }}>
-        <ambientLight intensity={0.8} />
-        <directionalLight intensity={5} position={[10, 10, 20]} castShadow />
-        {/* Pass the centerHex to SetCameraLookAt */}
-        <SetCameraLookAt centerHex={centerHex} />
-        <Suspense fallback={null}>
-            <Physics gravity={[0, 0, 0]}>
-            <Card setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
-            </Physics>
-        </Suspense>
-        </Canvas>
-            <Box height={500}>
+        <Stack alignItems={'center'} justifyContent={'center'} direction={'column'} width={'100%'} height={'80vh'} padding={'100px'}>
+        <Typography sx={isMediumScreen ? {} : { p: 2, color: 'white' }}>{`Write something about ${items[0].toLowerCase()}!`}</Typography>
+            <Box height={isMediumScreen ? 200 : 500} sx={isMediumScreen && {marginTop: 0}}>
                 <TextField sx={{height: '350px'}} id="filled-basic" variant="filled" multiline maxRows={10}/>
             </Box>
         </Stack>

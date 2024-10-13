@@ -6,11 +6,11 @@ import { useFrame } from '@react-three/fiber';
 import HexagonGrid from './HexagonGrid';
 
 
-const Card = ({ items, setCenterHex, setSelections, selections }) => {
+const Card = ({ items, setCenterHex, setSelections, selections, isMediumScreen }) => {
   return (
 
     <>
-    <HexagonGrid mass={mass} phys={phys} items={items} setCenterHex={setCenterHex} setSelections={setSelections} selections={selections}/>
+    <HexagonGrid isMediumScreen={isMediumScreen} items={items} setCenterHex={setCenterHex} setSelections={setSelections} selections={selections}/>
 
     </>
   );

@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
 
-function Hexagon({ position, label, index, rotation, setSelections, selections }) {
+function Hexagon({ isMediumScreen, position, label, index, rotation, setSelections, selections }) {
     const [isHover, setIsHover] = useState(null);
     const [isSelected, setIsSelected] = useState(false);
 
@@ -87,12 +87,12 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
   
         <Text
           position={[0, 0, 0.51]} // Slightly above the hexagon
-          fontSize={0.15} // Size of the text
+          fontSize={0.25} // Size of the text
           color="silver" // Color of the text
           anchorX="center" // Align horizontally to center
           anchorY="middle" // Align vertically to middle
           rotation={[0, 0, 0]} // Rotation will match the hexagon
-          maxWidth={0.7}
+          maxWidth={1.5}
           textAlign="center"
           onClick={() => setIsSelected(prev => !prev)}
         >

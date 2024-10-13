@@ -4,6 +4,10 @@
 
 body{
   overflow: hidden;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .App-logo {

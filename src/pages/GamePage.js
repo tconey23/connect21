@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createTheme, Stack, ThemeProvider, useMediaQuery } from '@mui/material';
+import { Box, createTheme, Stack, ThemeProvider, useMediaQuery } from '@mui/material';
 import { Button } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -101,6 +101,7 @@ const GamePage = () => {
     const data = await res.json()
     const final = await JSON.parse(data)
 
+    console.log(data)
     if(final){
       setItems(final)
     }
@@ -163,17 +164,16 @@ const GamePage = () => {
   <ThemeProvider theme={responsiveTheme}>
     <Stack
       direction={'column'}
-      height={isMediumScreen ? '60vh' : '100vh'}
-      width={isMediumScreen ? '70vw' : '100vw'}
+      height={isMediumScreen ? 390 : '100vh'}
+      width={isMediumScreen ? 844 : '100vw'}
       justifyContent={'center'}
       alignItems={'center'}
-      className="game-page"
       sx={isMediumScreen && {backgroundImage: `url(/public/images/20248730_6221800.svg)`}}
       >
       <Stack
         direction={'column'}
-        height={isMediumScreen ? '40vh' : '100vh'}
-        width={isMediumScreen ? '70vw' : '100vw'}
+        height={isMediumScreen ? '80vh' : '100vh'}
+        width={isMediumScreen ? '80vw' : '100vw'}
         justifyContent={'center'}
         alignItems={'center'}
         sx={{
@@ -198,6 +198,7 @@ const GamePage = () => {
               items={stageItems[0]}
               setSelections={setSelections}
               selections={selections}
+              isMediumScreen={isMediumScreen}
               />
             )}
             {stage === 2 && stageItems[1] &&  (
@@ -221,9 +222,9 @@ const GamePage = () => {
           </>
         )}
       </Stack>
-      <Stack direction={'row'}>
-        <Button sx={isMediumScreen && {width: 15, height: 10, fontSize: 10}} onClick={handlePrevStage}>BACK</Button>
-        <Button sx={isMediumScreen && {width: 15, height: 10, fontSize: 10}}  onClick={handleNextStage}>NEXT</Button>
+      <Stack sx={isMediumScreen && {position: 'absolute', width: 800, justifyContent: 'center', alignItems: 'center', top: 40}} direction={'row'}>
+        <Button sx={isMediumScreen && {width: 50, height: 10, fontSize: 25, marginRight: 25}} onClick={handlePrevStage}>BACK</Button>
+        <Button sx={isMediumScreen && {width: 50, height: 10, fontSize: 25, marginLeft: 25}}  onClick={handleNextStage}>{stage === 3 ? 'SUBMIT' : 'NEXT'}</Button>
         <Popover
           id={'popover'}
           open={open}

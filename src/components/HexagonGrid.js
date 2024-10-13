@@ -1,7 +1,7 @@
 import React from 'react';
 import Hexagon from './Hexagon';
 
-const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
+const HexagonGrid = ({ items, setCenterHex, setSelections, selections, isMediumScreen }) => {
   const hexRadius = 1.5;
   const hexHeight = Math.sqrt(3) * hexRadius;
   const hexWidth = 2 * hexRadius;
@@ -40,6 +40,7 @@ const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
           index={hex.index}
           setSelections={setSelections}
           selections={selections}
+          isMediumScreen = {isMediumScreen}
         />
       ))}
     </>

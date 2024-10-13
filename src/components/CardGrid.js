@@ -14,8 +14,8 @@ const SetCameraLookAt = ({ targetRef }) => {
   
   useFrame(() => {
     if (targetRef) {
-      targetRef.position = [3.5,4.4,0]
-      camera.position.set(3.5,5,7.5)
+      targetRef.position = [3.5,3.9,0]
+      camera.position.set(3.5,4,7.5)
       // console.log(targetRef.position)
       camera.lookAt(...targetRef.position);
     }
@@ -30,13 +30,13 @@ const CardGrid = ({ items, setSelections, selections, isMediumScreen }) => {
   const movingObjectRef = useRef();
 
   return (
-    <Canvas style={isMediumScreen ? { width: '800px'} : {width: '100%'}} shadows camera={{ position: [6, 6, 10], fov: 70 }}>
+    <Canvas style={isMediumScreen ? { width: 844, height: '80vh'} : {width: '100vw'}} shadows camera={{ position: [6, 6, 10], fov: 70 }}>
       <ambientLight intensity={0.8} />
       <directionalLight intensity={5} position={[10, 10, 20]} castShadow />
       <SetCameraLookAt targetRef={centerHex} />
       <Suspense fallback={null}>
         <Physics gravity={[0, 0, 0]}>
-          <Card setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
+          <Card isMediumScreen={isMediumScreen} setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
         </Physics>
       </Suspense>
     </Canvas>

@@ -22,7 +22,7 @@ const App = () => {
   useEffect(()=>{
 
     nav('/game')
-
+ 
     
   }, [loggedIn, nav])
 

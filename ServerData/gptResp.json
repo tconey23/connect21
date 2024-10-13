@@ -1,0 +1,30 @@
+{
+  "id": "chatcmpl-AHuMatb0JlUzidLPpma4nCwebARkL",
+  "object": "chat.completion",
+  "created": 1728831600,
+  "model": "gpt-3.5-turbo-0125",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "[\n  \"The sound of rain falling on a tin roof\",\n  \"The feeling of sunshine on your skin\",\n  \"A warm cup of tea on a cozy evening\",\n  \"The smell of freshly baked bread\",\n  \"A long, relaxing bath at the end of a tiring day\",\n  \"The joy of watching a beautiful sunset\",\n  \"The laughter of loved ones around you\",\n  \"The feeling of sand between your toes at the beach\",\n  \"The taste of ice cream on a hot summer day\",\n  \"The comfort of a good book on a rainy day\",\n  \"The excitement of exploring a new place\",\n  \"The satisfaction of completing a challenging task\",\n  \"The peacefulness of a quiet morning\",\n  \"The beauty of a blooming flower garden\",\n  \"The thrill of watching a thunderstorm from a safe place\",\n  \"The joy of a spontaneous dance party\",\n  \"The serenity of a starry night sky\",\n  \"The feeling of accomplishment after hard work\",\n  \"The comfort of a hug from a loved one\",\n  \"The taste of a home-cooked meal made with love\",\n  \"The happiness of making someone smile\"\n]",
+        "refusal": null
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 117,
+    "completion_tokens": 242,
+    "total_tokens": 359,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "system_fingerprint": null
+}

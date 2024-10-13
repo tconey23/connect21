@@ -16,7 +16,7 @@ const pages = ['Friends', 'History', 'Explore'];
 const settings = ['Profile', 'Account', 'Logout'] 
 
 const AppHeader = ({loggedIn, isMediumScreen}) => {
-
+ 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -36,7 +36,7 @@ const AppHeader = ({loggedIn, isMediumScreen}) => {
       };
 
   return (
-<AppBar position="static" sx={isMediumScreen && {height: 30, width: '72vw', alignItems: 'center', justifyContent: 'center'}}>
+<AppBar position="static" sx={isMediumScreen && {height: 30, width: 844, alignItems: 'center', justifyContent: 'center', paddingRight: '40px'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
