@@ -2,7 +2,6 @@ import React, { useEffect, Suspense, useState, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Physics, useBox } from '@react-three/cannon';
-import * as THREE from 'three';
 import Card from './Card';
 
 
