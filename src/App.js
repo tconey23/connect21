@@ -2,15 +2,18 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Stack } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
+import { createTheme, Stack, ThemeProvider, useMediaQuery  } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
-import LandingPage from './pages/LandingPage';
 import GamePage from './pages/GamePage';
 import AppHeader from './components/AppHeader';
 
+
 const App = () => {
+
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const isMediumScreen = useMediaQuery('(min-width:600px) and (max-width:960px)');
+  const isLargeScreen = useMediaQuery('(min-width:960px)');
 
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -18,25 +21,21 @@ const App = () => {
   const nav = useNavigate()
 
   useEffect(()=>{
-    if(loggedIn){
-      nav('/game')
-    } else {
-      nav('/')
-    }
+    nav('/game')
+    
   }, [loggedIn, nav])
 
   return (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
-      <AppHeader />
+    <Stack direction={'column'} alignItems={'center'} justifyContent={'flex-start'} width={isMediumScreen ? 390 : '100vw'} height={isMediumScreen ? 840 : '100vh'}>
+      <AppHeader isMediumScreen={isMediumScreen} loggedIn={loggedIn}/>
       <Routes>
-        {!loggedIn && <Route path='/' element={<LandingPage setLoggedIn={setLoggedIn}/>}/>}
-        {loggedIn && <Route path='/game' element={<GamePage />}/>}
+        <Route path='/game' element={<GamePage />}/>
       </Routes>
     </Stack>
   </ThemeProvider>
   );
 };
 
-export default App;
+export default App; 

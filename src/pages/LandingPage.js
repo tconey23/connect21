@@ -13,7 +13,7 @@ const LandingPage = ({ setLoggedIn }) => {
         sx={{
             backgroundColor: (theme) => theme.palette.background.default
         }}
-    >
+    > 
       <Stack 
         direction={'column'} 
         height={700} 

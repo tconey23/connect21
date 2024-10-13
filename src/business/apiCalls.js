@@ -3,6 +3,7 @@ const getMessage = async () => {
     const messages = [
       { role: "user", content: "Provide a list of 21 things to love" },
       { role: "user", content: "Each thing to love should be a full sentence, not a single word" },
+      { role: "user", content: "Each thing to love should be a bit edgy" },
       { role: "user", content: "The list MUST be organized in an array format, without numbers or bullets" },
       { role: "user", content: "The array MUST follow this exact format: [\"string\", \"string\", \"string\"]" },
       { role: "user", content: "Make sure the response is a valid JSON array using double quotes (\") around each string" },
@@ -13,7 +14,7 @@ const getMessage = async () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+          Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`, 
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",

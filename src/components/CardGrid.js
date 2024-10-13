@@ -1,37 +1,44 @@
-import { useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import React, { useEffect, Suspense, useState, useMemo, useRef } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { Physics, useBox } from '@react-three/cannon';
 import Card from './Card';
 
-const CardGrid = ({ items, setOpen, setSelections, selections}) => {
 
-  const rows = [
-    items.slice(0, 4),  
-    items.slice(4, 7), 
-    items.slice(7, 11), 
-    items.slice(11, 14), 
-    items.slice(14, 18),
-    items.slice(18, 21),
-  ];
+const SetCameraLookAt = ({ targetRef }) => {
+  const { camera } = useThree();
+
+  
+  useFrame(() => {
+    if (targetRef) {
+      targetRef.position = [4,4.4,0]
+      camera.position.set(4,5,8)
+
+      // console.log(targetRef.position)
+      camera.lookAt(...targetRef.position);
+    }
+  });
+
+  return null;
+};
+
+
+const CardGrid = ({ items, setSelections, selections, isMediumScreen }) => {
+  const [centerHex, setCenterHex] = useState();
+  const movingObjectRef = useRef();
 
   return (
-    <Stack  sx={{ overflowY: 'scroll', height: '90%'}}>
-      {rows.map((row, rowIndex) => (
-        <Stack 
-          key={rowIndex}
-          direction="row" 
-          spacing={0} 
-          justifyContent="center" 
-          mt={2}
-          height={160}
-          sx={{ width: '100%', flexWrap: 'wrap'}}
-        >
-          {row.map((item, index) => (
-            <Card selections={selections} setOpen={setOpen} setSelections={setSelections} item={item} index={index}/>
-          ))}
-        </Stack>
-      ))}
-    </Stack>
+    <Canvas style={isMediumScreen ? { width: '800px'} : {width: '100%'}} shadows camera={{ position: [6, 6, 10], fov: 70 }}>
+      <ambientLight intensity={0.8} />
+      <directionalLight intensity={5} position={[10, 10, 20]} castShadow />
+      <SetCameraLookAt targetRef={centerHex} />
+      <Suspense fallback={null}>
+        <Physics gravity={[0, 0, 0]}>
+          <Card setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
+        </Physics>
+      </Suspense>
+    </Canvas>
   );
 };
 
-export default CardGrid;
+export default CardGrid; 
