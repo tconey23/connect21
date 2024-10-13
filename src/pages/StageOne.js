@@ -29,7 +29,7 @@ const SetCameraLookAt = ({ centerHex }) => {
       if (items) {
         console.log(items);
       }
-    }, [items]); 
+    }, [items]);  
   
     return (
       <Canvas shadows camera={{ position: [6, 6, 10], fov: 70 }}>

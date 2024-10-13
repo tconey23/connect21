@@ -11,7 +11,7 @@ const getMessage = async () => {
     ];
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
+        method: "POST", 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`, 

@@ -17,7 +17,7 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
           const x = radius * Math.cos(angle);
           const y = radius * Math.sin(angle);
           if (i === 0) {
-            shape.moveTo(x, y);
+            shape.moveTo(x, y); 
           } else {
             shape.lineTo(x, y); 
           }

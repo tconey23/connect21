@@ -11,4 +11,4 @@ const Card = ({ items, setCenterHex, setSelections, selections }) => {
   );
 };
 
-export default Card; 
+export default Card;  

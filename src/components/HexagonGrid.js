@@ -20,7 +20,7 @@ const HexagonGrid = ({ items, setCenterHex, setSelections, selections }) => {
       const y = row * hexHeight * 0.5;
 
       if (items[count]) { 
-        hexagons.push({ position: [x, y, 0], label: items[count], index: count });
+        hexagons.push({ position: [x, y, 0], label: items[count], index: count }); 
         count += 1;
       }
     }

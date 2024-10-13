@@ -20,7 +20,7 @@ const NewAccount = ({setLoggedIn}) => {
     <Stack direction={'row'} sx={{ height: '70vh', width: '60vw', paddingTop: '20px', margin: '20px', background: 'white', borderRadius: 10}} justifyContent={'center'} alignItems={'flex-start'}>
       
       <Stack width={300} height={600} direction={'column'}>
-      <TextField
+      <TextField 
           id="outlined-helperText"
           label="User Name"
           defaultValue=" "
