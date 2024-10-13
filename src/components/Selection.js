@@ -18,7 +18,7 @@ const SetCameraLookAt = ({ targetRef }) => {
     });
   
     return null;
-  };
+  }; 
 
 // Helper function to create the hexagon shape
 const createHexagonShape = (radius) => {

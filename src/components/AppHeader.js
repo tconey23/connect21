@@ -40,7 +40,7 @@ const AppHeader = ({loggedIn, isMediumScreen}) => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h6" 
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"

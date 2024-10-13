@@ -231,7 +231,7 @@ const GamePage = () => {
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
-          }}
+          }} 
           >
           <Typography sx={{ p: 2 }}>{popoverText}</Typography>
         </Popover>

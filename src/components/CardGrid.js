@@ -42,4 +42,4 @@ const CardGrid = ({ items, setSelections, selections, isMediumScreen }) => {
   );
 };
 
-export default CardGrid;
+export default CardGrid; 

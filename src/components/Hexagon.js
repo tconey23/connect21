@@ -19,7 +19,7 @@ function Hexagon({ position, label, index, rotation, setSelections, selections }
           if (i === 0) {
             shape.moveTo(x, y);
           } else {
-            shape.lineTo(x, y);
+            shape.lineTo(x, y); 
           }
         }
         shape.closePath();
