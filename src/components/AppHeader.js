@@ -12,10 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Friends', 'History', 'Explore'];
-const settings = ['Profile', 'Account', 'Logout'] 
 
 const AppHeader = ({loggedIn, isMediumScreen}) => {
+  const pages = isMediumScreen ? []: ['Friends', 'History', 'Explore']
+  const settings = ['Profile', 'Account', 'Logout'] 
  
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);

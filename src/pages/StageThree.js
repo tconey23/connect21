@@ -1,10 +1,9 @@
 import React, { useEffect, Suspense, useState, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { Physics, useBox } from '@react-three/cannon';
-import * as THREE from 'three';
-import Card from '../components/Card';
+import {List, ListItem, ListItemText} from '@mui/material';
+import {Button} from '@mui/material';
 import { Box, createTheme, Stack, TextField, Typography, ThemeProvider } from '@mui/material';
+import html2canvas from 'html2canvas';
 
 const theme = createTheme ({
     components: {
@@ -52,24 +51,57 @@ const SetCameraLookAt = ({ centerHex }) => {
 
   
 
-const StageThree = ({items, setSelections, selections, isMediumScreen}) => {
-    const [centerHex, setCenterHex] = useState()
+  const StageThree = ({ items, setSelections, selections, isMediumScreen, handleNextStage, handlePrevStage, stage, stageItems, setUserText }) => {
+    const [centerHex, setCenterHex] = useState();
     const movingObjectRef = useRef();
-    
-    const stageThreeItems = items.slice(0, 21); // 21 items for stage one
-    
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [popoverText, setPopoverText] = useState(null);
+    const screenshotRef = useRef();
+    const [summary, setSummary] = useState([]); 
+
+    const takeScreenshot = () => {
+        const element = screenshotRef.current;
+        html2canvas(element)
+          .then((canvas) => {
+            const image = canvas.toDataURL('image/png');
+            const downloadLink = document.createElement('a');
+            downloadLink.href = image;
+            downloadLink.download = 'screenshot.png';
+            downloadLink.click();
+          })
+          .catch((error) => {
+            alert('Screenshot failed, please try again!');
+            console.error('Screenshot failed: ', error);
+          });
+    };
+
+    useEffect(() => {
+        let array = [];
+        if(stageItems){
+            stageItems[0].forEach((itm) => {
+                array.push(<ListItem>{itm}</ListItem>);
+            });
+            setSummary(array);
+        }
+    }, [stageItems]);
+
     return (
-        <>
         <ThemeProvider theme={theme}>
-        <Stack alignItems={'center'} justifyContent={'center'} direction={'column'} width={'100%'} height={'80vh'} padding={'100px'}>
-        <Typography sx={isMediumScreen ? {} : { p: 2, color: 'white' }}>{`Write something about ${items[0].toLowerCase()}!`}</Typography>
-            <Box height={isMediumScreen ? 200 : 500} sx={isMediumScreen && {marginTop: 0}}>
-                <TextField sx={{height: '350px'}} id="filled-basic" variant="filled" multiline maxRows={10}/>
-            </Box>
-        </Stack>
+            <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} width={'66vw'} height={'100%'}>
+                <Button  variant="contained" onClick={handlePrevStage}>BACK</Button>
+                <Stack ref={screenshotRef} alignItems={'center'} justifyContent={'center'} direction={'column'} width={'100%'} height={'80vh'} padding={'20px'} color={'white'}>
+                    <Typography sx={isMediumScreen ? {} : { p: 2, color: 'white' }}>
+                        {`Write something about ${items[0].toLowerCase()}!`}
+                    </Typography>
+                    <Box height={isMediumScreen ? 200 : 500} sx={isMediumScreen && {marginTop: 15}}>
+                        <TextField onChange={(e) => setUserText(e.target.value)} sx={{height: '350px'}} id="filled-basic" variant="filled" multiline maxRows={10}/>
+                    </Box>
+                </Stack>
+                <Button  variant="contained" onClick={handleNextStage}>{stage === 3 ? 'SHARE' : 'NEXT'}</Button>
+            </Stack>
         </ThemeProvider>
-        </>
     );
-  };
+};
 
 export default StageThree;

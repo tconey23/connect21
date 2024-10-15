@@ -9,6 +9,8 @@ import StageTwo from './StageTwo';
 import StageThree from './StageThree';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTexture } from '@react-three/drei';
+import Summary from './Summary';
 
 const terms = [
   "Adventure-filled weekends",
@@ -58,23 +60,24 @@ const responsiveTheme = createTheme({
   },
 });
 
-const GamePage = () => {
+const GamePage = ({setSummary, setChoices}) => {
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isMediumScreen = useMediaQuery('(min-width:600px) and (max-width:960px)');
   const isLargeScreen = useMediaQuery('(min-width:960px)');
 
   const [items, setItems] = useState(terms); // Initial items
   const [selections, setSelections] = useState([]); // Selections for the current stage
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [stage, setStage] = useState(0);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [userText, setUserText] = useState(null)
   const [stageItems, setStageItems] = useState({
-    0: [], // Items for Stage 0
-    1: [], // Items for Stage 1
-    2: [], // Items for Stage 2
-    3: [], // Items for Stage 3
+    0: ["The feeling of sunshine on your face", "The sound of waves crashing on the shore", "A warm cup of tea on a cold day", "A sky full of stars on a clear night"],
+    1: ["The feeling of sunshine on your face", "The sound of waves crashing on the shore", "A warm cup of tea on a cold day"],
+    2: ["The feeling of sunshine on your face"],
+    3: [], 
   });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
   const [popoverText, setPopoverText] = useState(null)
 
   const minMax = {
@@ -97,13 +100,15 @@ const GamePage = () => {
   }
 
   const fetchMessages = async () => {
-    const res = await fetch('http://localhost:3001/api/things')
+    const res = await fetch('https://raw.githubusercontent.com/tconey23/connect21_be/refs/heads/main/ServerData/gptResp.json')
     const data = await res.json()
-    const final = await JSON.parse(data)
+    console.log(data)
+    const final = await JSON.parse(data.choices[0].message.content)
 
     console.log(data)
     if(final){
       setItems(final)
+      
     }
   }
 
@@ -111,6 +116,16 @@ const GamePage = () => {
     fetchMessages()
     console.log(isMediumScreen)
   }, [])
+
+  useEffect(() => {
+    if(items){
+      setChoices(items)
+    }
+  }, [items])
+
+  useEffect(() => {
+    console.log(userText)
+  }, [userText])
   
   useEffect(() => {
     if (selections.length > 0) {
@@ -135,6 +150,8 @@ const GamePage = () => {
     } else if (stage < 3 && selections.length <= minMax[stage].min && selections.length <= minMax[stage].max){
       setAnchorEl(event.currentTarget)
       setPopoverText(`You must select a minimum of ${minMax[stage].min} item(s)`)
+    }else if (stage === 3 && userText && userText.length > 10){
+      setSummary([stageItems, userText])
     }
     
   };
@@ -164,13 +181,14 @@ const GamePage = () => {
   <ThemeProvider theme={responsiveTheme}>
     <Stack
       direction={'column'}
-      height={isMediumScreen ? 390 : '100vh'}
-      width={isMediumScreen ? 844 : '100vw'}
+      height={isMediumScreen ? '100vh' : '100vh'}
+      width={isMediumScreen ? '90vw' : '100vw'}
       justifyContent={'center'}
       alignItems={'center'}
-      sx={isMediumScreen && {backgroundImage: `url(/public/images/20248730_6221800.svg)`}}
+      className='game-page'
+      
       >
-      <Stack
+{      <Stack
         direction={'column'}
         height={isMediumScreen ? '80vh' : '100vh'}
         width={isMediumScreen ? '80vw' : '100vw'}
@@ -180,11 +198,15 @@ const GamePage = () => {
           backgroundColor: '#ffffff24',
           borderRadius: 5,
         }}
+        marginBottom={'40px'}
         >
         {items && (
           <>
             {stage === 0 && (
               <CardGrid
+              stage={stage}
+              handleNextStage={handleNextStage}
+              handlePrevStage={handlePrevStage}
               setOpen={setOpen}
               items={items}
               setSelections={setSelections}
@@ -194,6 +216,9 @@ const GamePage = () => {
             )}
             {stage === 1 && stageItems[0] && (
               <StageOne
+              stage={stage}
+              handleNextStage={handleNextStage}
+              handlePrevStage={handlePrevStage}
               setOpen={setOpen}
               items={stageItems[0]}
               setSelections={setSelections}
@@ -203,6 +228,9 @@ const GamePage = () => {
             )}
             {stage === 2 && stageItems[1] &&  (
               <StageTwo
+              stage={stage}
+              handleNextStage={handleNextStage}
+              handlePrevStage={handlePrevStage}
               setOpen={setOpen}
               items={stageItems[1]}
               setSelections={setSelections}
@@ -212,31 +240,39 @@ const GamePage = () => {
             )}
             {stage === 3 && stageItems[2] &&  (
               <StageThree
+              stage={stage}
+              handleNextStage={handleNextStage}
+              handlePrevStage={handlePrevStage}
               setOpen={setOpen}
               items={stageItems[2]}
               setSelections={setSelections}
               selections={selections}
               isMediumScreen={isMediumScreen}
+              stageItems={stageItems}
+              setUserText={setUserText}
               />
             )}
           </>
         )}
-      </Stack>
-      <Stack sx={isMediumScreen && {position: 'absolute', width: 800, justifyContent: 'center', alignItems: 'center', top: 40}} direction={'row'}>
-        <Button sx={isMediumScreen && {width: 50, height: 10, fontSize: 25, marginRight: 25}} onClick={handlePrevStage}>BACK</Button>
-        <Button sx={isMediumScreen && {width: 50, height: 10, fontSize: 25, marginLeft: 25}}  onClick={handleNextStage}>{stage === 3 ? 'SUBMIT' : 'NEXT'}</Button>
-        <Popover
-          id={'popover'}
-          open={open}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom', 
-            horizontal: 'left',
-          }} 
-          >
-          <Typography sx={{ p: 2 }}>{popoverText}</Typography>
-        </Popover>
-      </Stack>
+      </Stack> 
+      }
+{ !isMediumScreen &&
+    <Stack direction={'row'}>
+    <Button onClick={handlePrevStage}>BACK</Button>
+    <Button onClick={handleNextStage}>{stage === 3 ? 'SUBMIT' : 'NEXT'}</Button>
+    <Popover
+      id={'popover'}
+      open={open}
+      anchorEl={anchorEl}
+      anchorOrigin={{ 
+        vertical: 'bottom', 
+        horizontal: 'left',
+      }} 
+      >
+      <Typography sx={{ p: 2 }}>{popoverText}</Typography>
+    </Popover>
+  </Stack>
+    }
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
         open={loading}
