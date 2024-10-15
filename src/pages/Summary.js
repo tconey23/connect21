@@ -31,7 +31,8 @@ const Summary = ({ data, choices, setSummary, setChoices }) => {
                 // Try sharing the screenshot as a file
                 navigator.share({
                   title: 'Screenshot',
-                  text: 'Check out this screenshot!',
+                  text: 'Check my connect21 results!',
+                  url: 'connect21.vercel.app',
                   files: [file]
                 }).then(() => {
                   console.log('Screenshot shared successfully');
@@ -40,7 +41,8 @@ const Summary = ({ data, choices, setSummary, setChoices }) => {
                   console.error('Error sharing file, fallback to text:', error);
                   navigator.share({
                     title: 'Screenshot',
-                    text: 'Check out this screenshot!',
+                    text: 'Check my connect21 results!',
+                    url: 'connect21.vercel.app'
                   }).then(() => {
                     console.log('Text shared successfully as fallback');
                   }).catch(error => {
