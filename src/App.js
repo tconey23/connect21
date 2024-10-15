@@ -17,24 +17,24 @@ const App = () => {
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [summary, setSummary] = useState(
-    [
-    {
-    0:[
-      "Soft moonlight on a quiet beach",
-      "Spontaneous road trips with no destination",
-      "Smooth whiskey on a cold night",
-      "Reckless dancing like nobody's watching"
-    ],
-    1:[
-      "Spontaneous road trips with no destination",
-      "Smooth whiskey on a cold night",
-      "Reckless dancing like nobody's watching"
-    ],
-    2:[
-      "Smooth whiskey on a cold night",
-    ]},
-    "I like this a whole lot"
-  ]
+  //   [
+  //   {
+  //   0:[
+  //     "Soft moonlight on a quiet beach",
+  //     "Spontaneous road trips with no destination",
+  //     "Smooth whiskey on a cold night",
+  //     "Reckless dancing like nobody's watching"
+  //   ],
+  //   1:[
+  //     "Spontaneous road trips with no destination",
+  //     "Smooth whiskey on a cold night",
+  //     "Reckless dancing like nobody's watching"
+  //   ],
+  //   2:[
+  //     "Smooth whiskey on a cold night",
+  //   ]},
+  //   "I like this a whole lot"
+  // ]
 )
   const [choices, setChoices] = useState()
 
