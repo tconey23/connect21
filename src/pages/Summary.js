@@ -23,19 +23,35 @@ const Summary = ({ data, choices, setSummary, setChoices }) => {
         const deviceType = getDeviceType();
       
         if (deviceType === 'Mobile' || deviceType === 'Tablet') {
-          if (navigator.share) {
-            // Try sharing text only, without files
-            navigator.share({
-              title: 'Test Share',
-              text: 'This is a test share!',
-            }).then(() => {
-              console.log('Text shared successfully');
-            }).catch(error => {
-              console.error('Error sharing text:', error);
+          html2canvas(document.body).then(canvas => {
+            canvas.toBlob(blob => {
+              const file = new File([blob], 'screenshot.png', { type: 'image/png' });
+      
+              if (navigator.share) {
+                // Try sharing the screenshot as a file
+                navigator.share({
+                  title: 'Screenshot',
+                  text: 'Check out this screenshot!',
+                  files: [file]
+                }).then(() => {
+                  console.log('Screenshot shared successfully');
+                }).catch(error => {
+                  // Fallback to text sharing if file sharing fails
+                  console.error('Error sharing file, fallback to text:', error);
+                  navigator.share({
+                    title: 'Screenshot',
+                    text: 'Check out this screenshot!',
+                  }).then(() => {
+                    console.log('Text shared successfully as fallback');
+                  }).catch(error => {
+                    console.error('Error sharing text:', error);
+                  });
+                });
+              } else {
+                alert('Sharing is not supported on this device');
+              }
             });
-          } else {
-            alert('Sharing is not supported on this device');
-          }
+          });
         } else {
           console.log('Sharing is not supported on desktop devices.');
         }
