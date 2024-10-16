@@ -4,6 +4,7 @@ import { Physics } from '@react-three/cannon';
 import Card from './Card';
 import { Button, Stack, Box } from '@mui/material';
 import {Popover, Typography} from '@mui/material';
+import TwoDHexGrid from './TwoDHexGrid';
 
 
 
@@ -40,26 +41,17 @@ const CardGrid = ({ items, setSelections, selections, isMediumScreen, handleNext
   const [popoverText, setPopoverText] = useState(null)
 
   return (
-    <Stack direction={'column'} justifyContent={'center'} alignItems={'center'}>
+    <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} >
       <Box color={'white'}>
-      <Typography sx={{ p: 2, marginBottom: '-60px' }}>Select all of the things you love</Typography>
+      {/* <Typography sx={{ p: 2, marginBottom: '-60px' }}>Select all of the things you love</Typography> */}
       </Box>
     <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} >
       
-    <Button variant="contained" onClick={handlePrevStage}>BACK</Button>
+    {/* <Button variant="contained" onClick={handlePrevStage}>BACK</Button> */}
 
-    <Canvas style={isMediumScreen ? { width: 600, height: '80vh', marginBottom: '10px'} : {width: '100vw', height: '100vh'}} shadows >
-      <ambientLight intensity={0.8} />
-      <directionalLight intensity={5} position={[10, 10, 20]} castShadow />
-      <SetCameraLookAt targetRef={centerHex} isMediumScreen={isMediumScreen}/>
-      <Suspense fallback={null}>
-        <Physics gravity={[0, 0, 0]}>
-          <Card isMediumScreen={isMediumScreen} setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
-        </Physics>
-      </Suspense>
-    </Canvas>
+      <TwoDHexGrid isMediumScreen={isMediumScreen} setCenterHex={setCenterHex} items={items} movingObjectRef={movingObjectRef} setSelections={setSelections} selections={selections} />
 
-    <Button variant="contained" onClick={handleNextStage}>{stage === 3 ? 'SUBMIT' : 'NEXT'}</Button>
+    {/* <Button variant="contained" onClick={handleNextStage}>{stage === 3 ? 'SUBMIT' : 'NEXT'}</Button> */}
     <Popover
       id={'popover'}
       open={open}

@@ -102,10 +102,7 @@ const GamePage = ({setSummary, setChoices}) => {
   const fetchMessages = async () => {
     const res = await fetch('https://raw.githubusercontent.com/tconey23/connect21_be/refs/heads/main/ServerData/gptResp.json')
     const data = await res.json()
-    console.log(data)
     const final = await JSON.parse(data.choices[0].message.content)
-
-    console.log(data)
     if(final){
       setItems(final)
       
@@ -114,7 +111,7 @@ const GamePage = ({setSummary, setChoices}) => {
 
   useEffect(() => {
     fetchMessages()
-    console.log(isMediumScreen)
+    // console.log(isMediumScreen)
   }, [])
 
   useEffect(() => {
@@ -124,7 +121,7 @@ const GamePage = ({setSummary, setChoices}) => {
   }, [items])
 
   useEffect(() => {
-    console.log(userText)
+    // console.log(userText)
   }, [userText])
   
   useEffect(() => {
@@ -137,7 +134,7 @@ const GamePage = ({setSummary, setChoices}) => {
   }, [stage, selections]);
 
   useEffect(() => {
-  console.log(`stage ${stage} items`,stageItems[stage])
+  // console.log(`stage ${stage} items`,stageItems[stage])
   }, [stage, stageItems, selections]);
 
   const handleNextStage = (event) => {

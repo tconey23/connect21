@@ -48,7 +48,7 @@ const App = () => {
   }, [loggedIn])
 
   useEffect(() => {
-    console.log(choices)
+    // console.log(choices)
     if(summary && choices){
       nav('/summary')
     } else {

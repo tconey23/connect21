@@ -58,3 +58,10 @@ body{
   height: 500px;
   width: 500px
 } 
+
+.cell-letter{
+  stroke: black;
+  stroke-width: 0.2px;
+  font-size: 11px;
+  /* text-anchor: middle; */
+}
